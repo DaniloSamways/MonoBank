@@ -10,7 +10,13 @@
     "libs/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:auth": "npm -w services/auth-service run dev",
+    "dev:account": "npm -w services/account-service run dev",
+    "dev:transaction": "npm -w services/transaction-service run dev",
+    "dev:notification": "npm -w services/notification-service run dev",
+    "dev:all": "concurrently -n auth,account,tx,notif -c auto \"npm run dev:auth\" \"npm run dev:account\" \"npm run dev:transaction\" \"npm run dev:notification\"",
+    "lint": "npm -ws run lint",
+    "test": "npm -ws run test"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +24,7 @@
   "description": "",
   "dependencies": {
     "@types/express": "^5.0.6",
+    "concurrently": "^9.2.1",
     "express": "^5.2.1",
     "pino": "^10.2.1"
   },
