@@ -5,18 +5,18 @@
   "directories": {
     "doc": "docs"
   },
+  "private": true,
   "workspaces": [
     "services/*",
     "libs/*"
   ],
   "scripts": {
-    "dev:auth": "npm -w services/auth-service run dev",
-    "dev:account": "npm -w services/account-service run dev",
-    "dev:transaction": "npm -w services/transaction-service run dev",
-    "dev:notification": "npm -w services/notification-service run dev",
-    "dev:all": "concurrently -n auth,account,tx,notif -c auto \"npm run dev:auth\" \"npm run dev:account\" \"npm run dev:transaction\" \"npm run dev:notification\"",
-    "lint": "npm -ws run lint",
-    "test": "npm -ws run test"
+    "build:shared": "npm -w libs/shared run build",
+    "dev:auth": "npm run build:shared && npm -w services/auth-service run dev",
+    "dev:account": "npm run build:shared && npm -w services/account-service run dev",
+    "dev:transaction": "npm run build:shared && npm -w services/transaction-service run dev",
+    "dev:notification": "npm run build:shared && npm -w services/notification-service run dev",
+    "dev:all": "npm run build:shared && concurrently -n auth,account,tx,notif -c auto \"npm run dev:auth\" \"npm run dev:account\" \"npm run dev:transaction\" \"npm run dev:notification\""
   },
   "keywords": [],
   "author": "",
