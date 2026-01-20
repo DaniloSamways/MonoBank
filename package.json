@@ -15,5 +15,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "pino": "^10.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.9"
+  }
 }
