@@ -39,6 +39,7 @@ class JWTService {
 
   verifyAccessToken(token: string) {
     try {
+      return jwt.verify(token, this.accessSecret);
     } catch {
       throw new Error("Invalid access token");
     }
