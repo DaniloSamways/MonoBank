@@ -1,18 +1,12 @@
 import express from "express";
-import {
-  correlationMiddleware,
-  getCorrelationId,
-  logger,
-} from "@monobank/shared";
+import { correlationMiddleware, logger } from "@monobank/shared";
+import authRouter from "./auth.router";
 
 const app = express();
 app.use(express.json());
 app.use(correlationMiddleware);
 
-app.get("/health", (req, res) => {
-  logger.info({ correlationId: getCorrelationId() }, "healthcheck");
-  res.json({ status: "ok" });
-});
+app.use("/api/v1/auth", authRouter);
 
 const port = Number(process.env.PORT ?? 3001);
 app.listen(port, () => {
