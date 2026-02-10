@@ -8,7 +8,7 @@ const authController = new AuthController(authRepository);
 
 router.get("/login", authController.login);
 router.get("/health", authController.healthCheck);
-router.get("/by-email", authController.findUserByEmail);
+router.get("/by-email/:email", authController.findUserByEmail);
 router.post("/", authController.createUser);
 router.get("/:id", authController.findUserById);
 router.patch("/:id", authController.updateUser);
