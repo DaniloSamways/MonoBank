@@ -1,29 +1,54 @@
+import { getCorrelationId, logger } from "@monobank/shared";
 import { IAuthRepository } from "./auth.repository";
+import { Request, Response } from "express";
 
 export class AuthController {
-  constructor(private authRepository: IAuthRepository) {}
+  private authRepository: IAuthRepository;
 
-  async findUserByEmail(email: string) {
-    return this.authRepository.findUserByEmail(email);
+  constructor(authRepository: IAuthRepository) {
+    this.authRepository = authRepository;
+
+    this.findUserByEmail = this.findUserByEmail.bind(this);
+    this.createUser = this.createUser.bind(this);
+    this.findUserById = this.findUserById.bind(this);
+    this.updateUser = this.updateUser.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
+    this.login = this.login.bind(this);
+    this.healthCheck = this.healthCheck.bind(this);
   }
 
-  async createUser(userData: any) {
-    return this.authRepository.createUser(userData);
+  async findUserByEmail(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "finduserbyemail");
+    return this.authRepository.findUserByEmail("");
   }
 
-  async findUserById(id: string) {
-    return this.authRepository.findUserById(id);
+  async createUser(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "createuser");
+    return this.authRepository.createUser({});
   }
 
-  async updateUser(id: string, userData: any) {
-    return this.authRepository.updateUser(id, userData);
+  async findUserById(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "finduserbyid");
+    return this.authRepository.findUserById("");
   }
 
-  async deleteUser(id: string) {
-    return this.authRepository.deleteUser(id);
+  async updateUser(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "updateuser");
+    return this.authRepository.updateUser("", {});
   }
 
-  async findUserByEmailAndPassword(email: string, password: string) {
-    return this.authRepository.findUserByEmailAndPassword(email, password);
+  async deleteUser(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "deleteuser");
+    return this.authRepository.deleteUser("");
+  }
+
+  async login(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "login");
+    return this.authRepository.login("", "");
+  }
+
+  async healthCheck(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "healthcheck");
+    return { status: "ok" };
   }
 }
