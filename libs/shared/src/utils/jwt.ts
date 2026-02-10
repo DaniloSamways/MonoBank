@@ -57,4 +57,4 @@ class JWTService {
   }
 }
 
-export default new JWTService();
+export const jwtService = new JWTService();
