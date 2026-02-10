@@ -4,10 +4,10 @@ export interface IAuthRepository {
   findUserById(id: string): Promise<any>;
   updateUser(id: string, userData: any): Promise<any>;
   deleteUser(id: string): Promise<void>;
-  findUserByEmailAndPassword(email: string, password: string): Promise<any>;
+  login(email: string, password: string): Promise<any>;
 }
 
-class AuthRepository implements IAuthRepository {
+export class AuthRepository implements IAuthRepository {
   findUserByEmail(email: string): Promise<any> {
     throw new Error("Method not implemented.");
   }
@@ -23,7 +23,7 @@ class AuthRepository implements IAuthRepository {
   deleteUser(id: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  findUserByEmailAndPassword(email: string, password: string): Promise<any> {
+  login(email: string, password: string): Promise<any> {
     throw new Error("Method not implemented.");
   }
 }
