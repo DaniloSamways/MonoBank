@@ -10,11 +10,6 @@ const authController = new AuthController(authRepository);
 router.post("/", authController.createUser);
 router.get("/login", authController.login);
 router.get("/health", authController.healthCheck);
-router.get(
-  "/by-email/:email",
-  authMiddleware.authenticate,
-  authController.findUserByEmail,
-);
 router.get("/:id", authMiddleware.authenticate, authController.findUserById);
 router.patch("/:id", authMiddleware.authenticate, authController.updateUser);
 router.delete("/:id", authMiddleware.authenticate, authController.deleteUser);
