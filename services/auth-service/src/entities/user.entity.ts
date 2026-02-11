@@ -26,6 +26,9 @@ export class User {
   @Column()
   password!: string;
 
+  @Column({ nullable: true, unique: true })
+  accountId!: string;
+
   @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;
 
