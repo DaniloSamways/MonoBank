@@ -10,8 +10,8 @@ const authController = new AuthController(authRepository);
 router.post("/", authController.createUser);
 router.get("/login", authController.login);
 router.get("/health", authController.healthCheck);
-router.get("/:id", authMiddleware.authenticate, authController.findUserById);
-router.patch("/:id", authMiddleware.authenticate, authController.updateUser);
-router.delete("/:id", authMiddleware.authenticate, authController.deleteUser);
+router.get("/:id", authMiddleware.authenticate, authController.findById);
+router.patch("/:id", authMiddleware.authenticate, authController.update);
+router.delete("/:id", authMiddleware.authenticate, authController.delete);
 
 export default router;

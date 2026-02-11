@@ -9,9 +9,9 @@ export class AuthController {
     this.authRepository = authRepository;
 
     this.createUser = this.createUser.bind(this);
-    this.findUserById = this.findUserById.bind(this);
-    this.updateUser = this.updateUser.bind(this);
-    this.deleteUser = this.deleteUser.bind(this);
+    this.findById = this.findById.bind(this);
+    this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
     this.login = this.login.bind(this);
     this.healthCheck = this.healthCheck.bind(this);
   }
@@ -21,18 +21,18 @@ export class AuthController {
     return this.authRepository.create({});
   }
 
-  async findUserById(req: Request, res: Response) {
-    logger.info({ correlationId: getCorrelationId() }, "finduserbyid");
+  async findById(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "findbyid");
     return this.authRepository.findById("");
   }
 
-  async updateUser(req: Request, res: Response) {
-    logger.info({ correlationId: getCorrelationId() }, "updateuser");
+  async update(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "update");
     return this.authRepository.update("", {});
   }
 
-  async deleteUser(req: Request, res: Response) {
-    logger.info({ correlationId: getCorrelationId() }, "deleteuser");
+  async delete(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "delete");
     return this.authRepository.delete("");
   }
 
