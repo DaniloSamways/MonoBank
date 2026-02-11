@@ -21,10 +21,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "concurrently": "^9.2.1",
+    "cors": "^2.8.6",
     "dotenv-cli": "^11.0.0",
     "express": "^5.2.1",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "pino": "^10.2.1"
   },
