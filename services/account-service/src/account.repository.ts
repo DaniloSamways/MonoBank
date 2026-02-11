@@ -1,22 +1,27 @@
+import { AppDataSource } from "./db/index";
+import { Account } from "./entities/account.entity";
+
 export interface IAccountRepository {
-  transferFunds(
-    fromAccountId: string,
-    toAccountId: string,
-    amount: number,
-  ): Promise<void>;
-  getBalance(accountId: string): Promise<number>;
+  getById(accountId: string): Promise<any>;
+  update(id: string, accountData: any): Promise<any>;
+  create(accountData: any): Promise<any>;
 }
 
 export class AccountRepository implements IAccountRepository {
-  transferFunds(
-    fromAccountId: string,
-    toAccountId: string,
-    amount: number,
-  ): Promise<void> {
-    throw new Error("Method not implemented.");
+  constructor(private db = AppDataSource.getRepository(Account)) {}
+
+  update(id: string, accountData: any): Promise<any> {
+    return this.db.save({ id, ...accountData });
   }
 
-  getBalance(accountId: string): Promise<number> {
-    throw new Error("Method not implemented.");
+  create(accountData: any): Promise<any> {
+    const account = this.db.create(accountData);
+    return this.db.save(account);
+  }
+
+  getById(accountId: string): Promise<any> {
+    return this.db.findOne({
+      where: { id: accountId },
+    });
   }
 }
