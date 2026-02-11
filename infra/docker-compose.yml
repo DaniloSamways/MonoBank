@@ -3,6 +3,8 @@ services:
     image: postgres:16
     container_name: bank_postgres
     environment:
+      TZ: "America/Sao_Paulo"
+      PGTZ: "America/Sao_Paulo" 
       POSTGRES_USER: bank
       POSTGRES_PASSWORD: bank
       POSTGRES_DB: postgres
