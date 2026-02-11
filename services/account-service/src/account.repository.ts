@@ -5,6 +5,7 @@ export interface IAccountRepository {
   getById(accountId: string): Promise<any>;
   update(id: string, accountData: any): Promise<any>;
   create(accountData: any): Promise<any>;
+  customQuery(query: string, parameters?: any[]): Promise<any>;
 }
 
 export class AccountRepository implements IAccountRepository {
@@ -22,6 +23,17 @@ export class AccountRepository implements IAccountRepository {
   getById(accountId: string): Promise<any> {
     return this.db.findOne({
       where: { id: accountId },
+    });
+  }
+
+  customQuery(query: string, parameters?: any[]): Promise<any> {
+    return this.db.query(query, parameters).then((result) => {
+      if (result[1] != undefined) {
+        return {
+          rows: result[0],
+          rowCount: result[1],
+        };
+      }
     });
   }
 }
