@@ -7,7 +7,7 @@ const router = Router();
 const authRepository = new AuthRepository();
 const authController = new AuthController(authRepository);
 
-router.post("/", authController.createUser);
+router.post("/", authController.create);
 router.get("/login", authController.login);
 router.get("/health", authController.healthCheck);
 router.get("/:id", authMiddleware.authenticate, authController.findById);

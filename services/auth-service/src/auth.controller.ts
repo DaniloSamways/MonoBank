@@ -8,7 +8,7 @@ export class AuthController {
   constructor(authRepository: IAuthRepository) {
     this.authRepository = authRepository;
 
-    this.createUser = this.createUser.bind(this);
+    this.create = this.create.bind(this);
     this.findById = this.findById.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
@@ -16,28 +16,59 @@ export class AuthController {
     this.healthCheck = this.healthCheck.bind(this);
   }
 
-  async createUser(req: Request, res: Response) {
-    logger.info({ correlationId: getCorrelationId() }, "createuser");
-    return this.authRepository.create({});
+  async create(req: Request, res: Response) {
+    logger.info({ correlationId: getCorrelationId() }, "create-user");
+
+    const { firstName, lastName, birthDate, email, password } = req.body;
+
+    const user = await this.authRepository.create({
+      firstName,
+      lastName,
+      birthDate,
+      email,
+      password,
+    });
+
+    res.json(user);
   }
 
   async findById(req: Request, res: Response) {
-    logger.info({ correlationId: getCorrelationId() }, "findbyid");
-    return this.authRepository.findById("");
+    logger.info({ correlationId: getCorrelationId() }, "findbyid-user");
+
+    const { id } = req.params;
+
+    const user = await this.authRepository.findById(id as string);
+    res.json(user);
   }
 
   async update(req: Request, res: Response) {
-    logger.info({ correlationId: getCorrelationId() }, "update");
-    return this.authRepository.update("", {});
+    logger.info({ correlationId: getCorrelationId() }, "update-user");
+
+    const { id } = req.params;
+
+    const { firstName, lastName, birthDate, email, password } = req.body;
+
+    const user = await this.authRepository.update(id as string, {
+      firstName,
+      lastName,
+      birthDate,
+      email,
+      password,
+    });
+    res.json(user);
   }
 
   async delete(req: Request, res: Response) {
-    logger.info({ correlationId: getCorrelationId() }, "delete");
-    return this.authRepository.delete("");
+    logger.info({ correlationId: getCorrelationId() }, "delete-user");
+
+    const { id } = req.params;
+
+    const result = await this.authRepository.delete(id as string);
+    res.json(result);
   }
 
   async login(req: Request, res: Response) {
-    logger.info({ correlationId: getCorrelationId() }, "login");
+    logger.info({ correlationId: getCorrelationId() }, "login-user");
 
     const { email, password } = req.body;
 
@@ -68,7 +99,7 @@ export class AuthController {
   }
 
   async healthCheck(req: Request, res: Response) {
-    logger.info({ correlationId: getCorrelationId() }, "healthcheck");
+    logger.info({ correlationId: getCorrelationId() }, "healthcheck-user");
     res.json({ status: "ok" });
   }
 }
