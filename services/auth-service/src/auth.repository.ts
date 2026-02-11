@@ -1,3 +1,6 @@
+import { AppDataSource } from "./db";
+import { User } from "./entities/user.entity";
+
 export interface IAuthRepository {
   findByEmail(email: string): Promise<any>;
   create(userData: any): Promise<any>;
@@ -7,19 +10,26 @@ export interface IAuthRepository {
 }
 
 export class AuthRepository implements IAuthRepository {
-  findByEmail(email: string): Promise<any> {
-    throw new Error("Method not implemented.");
+  constructor(private db = AppDataSource.getRepository(User)) {}
+
+  async findByEmail(email: string): Promise<any> {
+    return this.db.findOne({ where: { email } });
   }
-  create(userData: any): Promise<any> {
-    throw new Error("Method not implemented.");
+
+  async create(userData: any): Promise<any> {
+    const user = this.db.create(userData);
+    return this.db.save(user);
   }
-  findById(id: string): Promise<any> {
-    throw new Error("Method not implemented.");
+
+  async findById(id: string): Promise<any> {
+    return this.db.findOne({ where: { id } });
   }
-  update(id: string, userData: any): Promise<any> {
-    throw new Error("Method not implemented.");
+
+  async update(id: string, userData: any): Promise<any> {
+    return this.db.save({ id, ...userData });
   }
-  delete(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+
+  async delete(id: string): Promise<void> {
+    return this.db.delete(id).then(() => {});
   }
 }
