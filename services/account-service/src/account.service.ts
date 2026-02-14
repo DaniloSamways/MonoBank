@@ -19,7 +19,7 @@ export class AccountService implements IAccountService {
 
   async create({ userId, type }: { userId: string; type: string }) {
     const account = await this.repository.create({
-      user_id: userId,
+      userId,
       type,
       balance: 0,
       currency: "BRL",

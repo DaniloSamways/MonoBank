@@ -11,7 +11,7 @@ export class Account {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column()
+  @Column({ unique: true })
   userId!: string;
 
   @Column({ type: "decimal", precision: 15, scale: 2, default: 0 })
