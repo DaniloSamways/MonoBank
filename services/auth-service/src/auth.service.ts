@@ -1,7 +1,7 @@
 import { jwtService } from "@monobank/shared";
 import { IAuthRepository } from "./auth.repository";
-import { AppDataSource } from "./db";
-import { User } from "./entities/user.entity";
+import { kafka } from "./lib/kafka";
+import { randomUUID } from "node:crypto";
 
 export interface IAuthService {
   findByEmail(email: string): Promise<any>;
@@ -13,6 +13,8 @@ export interface IAuthService {
 }
 
 export class AuthService implements IAuthService {
+  private producer = kafka.producer();
+
   constructor(private repository: IAuthRepository) {}
 
   async findByEmail(email: string): Promise<any> {
@@ -20,7 +22,31 @@ export class AuthService implements IAuthService {
   }
 
   async create(userData: any): Promise<any> {
-    const user = this.repository.create(userData);
+    const user = await this.repository.create(userData);
+
+    if (user) {
+      const event = {
+        event_id: randomUUID(),
+        event_type: "tx.created",
+        occurred_at: new Date().toISOString(),
+        producer: "auth-service",
+        correlation_id: randomUUID(),
+        causation_id: null,
+        data: user,
+      };
+      await this.producer.connect();
+      await this.producer.send({
+        topic: "user.created",
+        messages: [
+          {
+            key: user.id,
+            value: JSON.stringify(event),
+          },
+        ],
+      });
+      await this.producer.disconnect();
+    }
+
     return user;
   }
 
@@ -56,7 +82,27 @@ export class AuthService implements IAuthService {
   }
 
   async update(id: string, userData: any): Promise<any> {
-    return this.repository.update(id, userData);
+    const user = await this.repository.update(id, userData);
+
+    if (user) {
+      try {
+        await this.producer.connect();
+        await this.producer.send({
+          topic: "user.updated",
+          messages: [
+            {
+              key: user.id,
+              value: JSON.stringify(user),
+            },
+          ],
+        });
+        await this.producer.disconnect();
+      } catch (err) {
+        console.log("ERRO KAFKA", err);
+      }
+    }
+
+    return user;
   }
 
   async delete(id: string): Promise<void> {
