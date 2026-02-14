@@ -9,7 +9,7 @@ export const AppDataSource = new DataSource({
   password: process.env.AUTH_DB_PASS!,
   database: process.env.AUTH_DB_NAME!,
   entities: [User],
-  synchronize: false,
+  synchronize: true,
   logging: false,
 });
 

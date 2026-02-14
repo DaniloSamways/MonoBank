@@ -30,6 +30,6 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async delete(id: string): Promise<void> {
-    return this.db.delete(id).then(() => {});
+    return this.db.softDelete(id).then(() => {});
   }
 }
