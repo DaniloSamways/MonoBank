@@ -1,5 +1,5 @@
-import { AppDataSource } from "./db";
-import { User } from "./entities/user.entity";
+import { AppDataSource } from "../db";
+import { User } from "../entities/user.entity";
 
 export interface IAuthRepository {
   findByEmail(email: string): Promise<any>;

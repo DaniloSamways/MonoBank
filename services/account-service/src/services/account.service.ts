@@ -1,4 +1,4 @@
-import { IAccountRepository } from "./account.repository";
+import { IAccountRepository } from "../repositories/account.repository";
 
 export interface IAccountService {
   update(id: string, accountData: any): Promise<any>;

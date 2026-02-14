@@ -1,6 +1,6 @@
 import { jwtService } from "@monobank/shared";
-import { IAuthRepository } from "./auth.repository";
-import { kafka } from "./lib/kafka";
+import { IAuthRepository } from "../repositories/auth.repository";
+import { kafka } from "../lib/kafka";
 import { randomUUID } from "node:crypto";
 
 export interface IAuthService {

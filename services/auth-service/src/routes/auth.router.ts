@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { AuthController } from "./auth.controller";
-import { AuthRepository } from "./auth.repository";
+import { AuthController } from "../controllers/auth.controller";
+import { AuthRepository } from "../repositories/auth.repository";
 import { authMiddleware } from "@monobank/shared";
-import { AuthService } from "./auth.service";
+import { AuthService } from "../services/auth.service";
 
 const router = Router();
 const authRepository = new AuthRepository();

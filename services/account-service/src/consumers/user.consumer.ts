@@ -1,7 +1,7 @@
 import { logger } from "@monobank/shared";
 import { kafka } from "../lib/kafka";
-import { AccountService } from "../account.service";
-import { AccountRepository } from "../account.repository";
+import { AccountService } from "../services/account.service";
+import { AccountRepository } from "../repositories/account.repository";
 
 const repositoryService = new AccountRepository();
 const accountService = new AccountService(repositoryService);

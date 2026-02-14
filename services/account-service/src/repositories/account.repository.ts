@@ -1,5 +1,5 @@
-import { AppDataSource } from "./db/index";
-import { Account } from "./entities/account.entity";
+import { AppDataSource } from "../../db/index";
+import { Account } from "../entities/account.entity";
 
 export interface IAccountRepository {
   getById(accountId: string): Promise<any>;

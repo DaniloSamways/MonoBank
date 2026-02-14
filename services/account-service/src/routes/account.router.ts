@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { AccountController } from "./account.controller";
-import { AccountRepository } from "./account.repository";
-import { AccountService } from "./account.service";
+import { AccountController } from "../controllers/account.controller";
+import { AccountRepository } from "../repositories/account.repository";
+import { AccountService } from "../services/account.service";
 
 const router = Router();
 const accountRepository = new AccountRepository();

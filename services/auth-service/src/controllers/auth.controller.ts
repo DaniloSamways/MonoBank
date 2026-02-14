@@ -1,6 +1,6 @@
 import { getCorrelationId, jwtService, logger } from "@monobank/shared";
 import { Request, Response } from "express";
-import { IAuthService } from "./auth.service";
+import { IAuthService } from "./services/auth.service";
 
 export class AuthController {
   constructor(private service: IAuthService) {

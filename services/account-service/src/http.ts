@@ -1,6 +1,6 @@
 import express from "express";
 import { correlationMiddleware, logger } from "@monobank/shared";
-import accountRouter from "./account.router";
+import accountRouter from "./routes/account.router";
 import helmet from "helmet";
 import cors from "cors";
 

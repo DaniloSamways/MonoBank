@@ -1,7 +1,7 @@
 import { getCorrelationId, logger } from "@monobank/shared";
-import { IAccountRepository } from "./account.repository";
+import { IAccountRepository } from "../repositories/account.repository";
 import { Request, Response } from "express";
-import { IAccountService } from "./account.service";
+import { IAccountService } from "../services/account.service";
 
 export class AccountController {
   constructor(
