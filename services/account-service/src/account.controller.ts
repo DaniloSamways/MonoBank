@@ -5,11 +5,9 @@ import { IAccountService } from "./account.service";
 
 export class AccountController {
   constructor(
-    private accountService: IAccountService,
-    private accountRepository: IAccountRepository,
+    private service: IAccountService,
+    private repository: IAccountRepository,
   ) {
-    this.accountRepository = accountRepository;
-
     this.healthCheck = this.healthCheck.bind(this);
     this.transferFunds = this.transferFunds.bind(this);
     this.getBalance = this.getBalance.bind(this);
@@ -24,7 +22,7 @@ export class AccountController {
   async transferFunds(req: Request, res: Response) {
     const { fromAccountId, toAccountId, amount } = req.body;
 
-    await this.accountService.transferFunds(fromAccountId, toAccountId, amount);
+    await this.service.transferFunds(fromAccountId, toAccountId, amount);
 
     res.json({
       ok: true,
@@ -34,7 +32,7 @@ export class AccountController {
   async getBalance(req: Request, res: Response) {
     const { accountId } = req.params;
 
-    const account = await this.accountRepository.getById(accountId as string);
+    const account = await this.repository.getById(accountId as string);
 
     if (!account) {
       res.status(404).json({ error: "Account not found" });
@@ -47,7 +45,15 @@ export class AccountController {
   async create(req: Request, res: Response) {
     const { userId, currency, type } = req.body;
     const accountData = { userId, currency, type };
-    const newAccount = await this.accountRepository.create(accountData);
+    const newAccount = await this.service.create(accountData);
     res.status(201).json(newAccount);
+  }
+
+  async update(req: Request, res: Response) {
+    const { accountId } = req.params;
+    const { type } = req.body;
+
+    const user = await this.service.update(accountId as string, { type });
+    res.status(200).json(user);
   }
 }

@@ -26,7 +26,7 @@ export class AccountRepository implements IAccountRepository {
     });
   }
 
-  customQuery(query: string, parameters?: any[]): Promise<any> {
+  async customQuery(query: string, parameters?: any[]): Promise<any> {
     return this.db.query(query, parameters).then((result) => {
       if (result[1] != undefined) {
         return {
