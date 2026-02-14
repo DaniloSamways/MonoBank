@@ -1,13 +1,9 @@
 import { getCorrelationId, jwtService, logger } from "@monobank/shared";
-import { IAuthRepository } from "./auth.repository";
 import { Request, Response } from "express";
+import { IAuthService } from "./auth.service";
 
 export class AuthController {
-  private authRepository: IAuthRepository;
-
-  constructor(authRepository: IAuthRepository) {
-    this.authRepository = authRepository;
-
+  constructor(private service: IAuthService) {
     this.create = this.create.bind(this);
     this.findById = this.findById.bind(this);
     this.update = this.update.bind(this);
@@ -21,7 +17,7 @@ export class AuthController {
 
     const { firstName, lastName, birthDate, email, password } = req.body;
 
-    const user = await this.authRepository.create({
+    const user = await this.service.create({
       firstName,
       lastName,
       birthDate,
@@ -37,7 +33,7 @@ export class AuthController {
 
     const { id } = req.params;
 
-    const user = await this.authRepository.findById(id as string);
+    const user = await this.service.findById(id as string);
     res.json(user);
   }
 
@@ -48,7 +44,7 @@ export class AuthController {
 
     const { firstName, lastName, birthDate, email, password } = req.body;
 
-    const user = await this.authRepository.update(id as string, {
+    const user = await this.service.update(id as string, {
       firstName,
       lastName,
       birthDate,
@@ -63,7 +59,7 @@ export class AuthController {
 
     const { id } = req.params;
 
-    const result = await this.authRepository.delete(id as string);
+    const result = await this.service.delete(id as string);
     res.json(result);
   }
 
@@ -72,30 +68,9 @@ export class AuthController {
 
     const { email, password } = req.body;
 
-    const user = await this.authRepository.findByEmail(email);
+    const login = await this.service.login(email, password);
 
-    if (!user || user.password !== password) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-
-    const accessToken = jwtService.generateAccessToken({
-      userId: user.id,
-      email: user.email,
-    });
-
-    const refreshToken = jwtService.generateRefreshToken({
-      userId: user.id,
-    });
-
-    res.json({
-      accessToken,
-      refreshToken: refreshToken,
-      expiresIn: 900, // 15 minutos
-      user: {
-        id: user.id,
-        email: user.email,
-      },
-    });
+    res.json(login);
   }
 
   async healthCheck(req: Request, res: Response) {
